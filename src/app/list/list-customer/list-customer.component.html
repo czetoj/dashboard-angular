@@ -1,0 +1,83 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-success btn-block mb-5" [routerLink]="['/customers/'+0]"><span
+                        class="material-icons">library_add</span> Add a new customer</button>
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title ">Customer's list</h4>
+                        <p class="card-category"> This is a list of our customers. You can add, modify or remove any
+                            customer if needed.</p>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="col-12 mx-auto row py-2 product-search">
+                        <select [(ngModel)]="filterKey" class="options-control form-control col-1 ml-auto py-4">
+                            <option *ngFor="let prop of customerProps" [value]="prop">{{prop}}</option>
+                        </select>
+                        <select *ngIf="filterKey == 'address'" [(ngModel)]="aFilterKey"
+                            class="address-options-control options-control form-control col-1 ml-auto py-4">
+                            <option *ngFor="let aprop of addressProps" [value]="aprop">{{aprop}}</option>
+                        </select>
+                        <input [(ngModel)]="phrase" class="form-control mx-1 col-4 py-4" type="text"
+                            placeholder="Search">
+                        <button class="btn btn-success col-1 mr-auto" type="submit"><span
+                                class="material-icons">search</span></button>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class=" text-primary">
+                                    <th class="sortedHeads" *ngFor="let col of cols" id="{{ col.key }}" draggable="true"
+                                        (dragover)="$event.preventDefault()" (dragstart)="onHeaderDragStart($event)"
+                                        (drop)="onHeaderDrop($event)" (click)="onChangeSort(col.key)">
+                                        <i *ngIf="ascend" class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                                        <i *ngIf="!ascend" class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                                        {{ col.title }}
+                                    </th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let customer of customerList$ | async | filter:filterKey:phrase:aFilterKey | sort:sortKey: ascend: zip|slice: (indexPage -1)*pagiLength: indexPage*pagiLength">
+                                        <td *ngFor="let col of cols">
+                                            <span *ngIf="col.key != 'address'">{{ customer[col.key]}}</span>
+                                            <span *ngIf="col.key == 'address'">{{ customer[col.key][col.key2] }}, {{
+                                                customer[col.key][col.key3] }}. {{ customer[col.key][col.key4] }}, {{
+                                                customer[col.key][col.key5] }}, {{ customer[col.key][col.key6] }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group w-100">
+                                                <button [routerLink]="['/customers/' + customer.id]"
+                                                    class="btn btn-info">
+                                                    <span class="material-icons">create</span></button>
+                                                <button (click)="onDeleteClick(customer)" class="btn btn-danger"><span
+                                                        class="material-icons">delete</span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <th></th>
+                                    <th class="text-primary" *ngIf="phrase == ''">Number of customers</th>
+                                    <th class="text-success" *ngIf="phrase != ''">Number of searched customers</th>
+                                </thead>
+                                <tbody>
+                                    <tr></tr>
+                                    <tr *ngIf="customerList$ | async | filter:filterKey:phrase:aFilterKey;let list">
+                                        {{list.length}}</tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <app-pagination [length]="ArrayLength" (onLength)="onLength($event)" (onIndex)="onIndex($event)">
+                    </app-pagination>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

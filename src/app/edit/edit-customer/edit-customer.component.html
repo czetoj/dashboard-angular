@@ -1,0 +1,107 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/customers">Customers List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Customer Editor</li>
+    </ol>
+</nav>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card">
+
+      <div class="card-header card-header-info">
+        <h4 class="card-title">Edit customer</h4>
+        <p class="card-category">Complete your modification of the customer!</p>
+      </div>
+
+      <div *ngIf="(customers$ | async) as customer" class="card-body">
+        <form #customerForm="ngForm" (ngSubmit)="onUpdate(customerForm, customer)">
+            <div class="form-group">
+                <label for="">FirstName</label>
+                <input name="firstName" [(ngModel)]="customer.firstName" type="text" class="form-control"
+                    pattern="^[A-ZÁÉŐÚŰÖÜÓÍ]{1}[a-záéűúőöüóí ]{1,}$" placeholder="Samplename" required>
+                <div [hidden]="customerForm.controls.firstName?.valid || customerForm.controls.firstName?.pristine"
+                    class="error-feedback">
+                    FirstName must start with an UPPERCASE character, and must be 2 characters long at least
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">LastName</label>
+                <input name="lastName" [(ngModel)]="customer.lastName" type="text" class="form-control"
+                    pattern="^[A-ZÁÉŐÚŰÖÜÓÍ]{1}[a-záéűúőöüóí ]{1,}$" placeholder="Samplename" required>
+                <div [hidden]="customerForm.controls.lastName?.valid || customerForm.controls.lastName?.pristine"
+                    class="error-feedback">
+                    LastName must start with an UPPERCASE character, and must be 2 characters long at least
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Email</label>
+                <input name="email" [(ngModel)]="customer.email" type="text" class="form-control"
+                    pattern="^[a-z0-9.-_]{2,}@{1}[a-z0-9.-]{2,}\.{1}[a-z]{2,4}$" placeholder="sample1234@sample.com"
+                    required>
+                <div [hidden]="customerForm.controls.email?.valid || customerForm.controls.email?.pristine"
+                    class="error-feedback">
+                    Wrong email format / recommended format: sample1234@sample.com
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Country</label>
+                <input name="country" [(ngModel)]="customer.address.country" type="text" class="form-control"
+                    pattern="[A-Za-z ]{3,25}" placeholder="SAMPLE COUNTRY" required>
+                <div [hidden]="customerForm.controls.country?.valid || customerForm.controls.country?.pristine"
+                    class="error-feedback">
+                    Wrong county format / The country must be 3-25 characters long
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">City</label>
+                <input name="city" [(ngModel)]="customer.address.city" type="text" class="form-control"
+                    pattern="^[A-Z]{1}[A-Za-zÁÉŐÚŰÖÜÓÍáéőúűöüóí ]{3,29}$" placeholder="Sample City" required>
+                <div [hidden]="customerForm.controls.city?.valid || customerForm.controls.city?.pristine"
+                    class="error-feedback">
+                    Wrong city format / The city must be 4-30 characters long
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Street</label>
+                <input name="street" [(ngModel)]="customer.address.street" type="text" class="form-control"
+                    pattern="^[A-ZÁÉŰŐÚÖÜÓÍ0-9]{1}[A-Za-zÁÉŐÚŰÖÜÓÍáéőúűöüóí0-9.' ]{3,29}$" placeholder="Sample Street"
+                    required>
+                <div [hidden]="customerForm.controls.street?.valid || customerForm.controls.street?.pristine"
+                    class="error-feedback">
+                    Wrong Street format / The street must be 4-30 characters long
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Number</label>
+                <input name="notes" [(ngModel)]="customer.address.notes" type="text" class="form-control"
+                    pattern="^[0-9]{1,5}$" placeholder="00" required>
+                <div [hidden]="customerForm.controls.notes?.valid || customerForm.controls.notes?.pristine"
+                    class="error-feedback">
+                    Wrong number format / The number can only contain number and must be 1-5 characters long
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Zip code</label>
+                <input name="zip" [(ngModel)]="customer.address.zip" type="text" class="form-control"
+                    pattern="^([0-9]{2}|[A-Z]{2})[0-9]{1,5}$" placeholder="0000/AA20" required>
+                <div [hidden]="customerForm.controls.zip?.valid || customerForm.controls.zip?.pristine"
+                    class="error-feedback">
+                    Wrong Zip format / recommended format: 0000/AA20
+                </div>
+            </div>
+            <button *ngIf="customer.id != 0" [disabled]="customerForm.invalid || submitted" type="submit"
+                class="btn btn-info btn-block btn-lg mt-3">
+                <span *ngIf="!submitted" class="material-icons">save_alt</span>
+                <span *ngIf="submitted" class="material-icons save">cached</span>
+            </button>
+            <button *ngIf="customer.id == 0" [disabled]="customerForm.invalid || submitted" type="submit"
+                class="btn btn-success btn-block btn-lg mt-3">
+                <span *ngIf="!submitted" class="material-icons">save_alt</span>
+                <span *ngIf="submitted" class="material-icons save">cached</span>
+            </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

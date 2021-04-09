@@ -1,0 +1,89 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <button class="btn btn-success btn-block mb-5" [routerLink]="['/bills/'+0]">
+                    <span class="material-icons">
+                        library_add
+                    </span> Add a new bill</button>
+
+
+                <div class="card">
+                    <div class="card-header card-header-grey">
+                        <h4 class="card-title text-white">Bill List</h4>
+                        <p class="card-category"> This is a list of bills. You can add, modify and delete a bill.</p>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="col-12 mx-auto row py-2 product-search">
+                        <select [(ngModel)]="filterKey" class="options-control form-control col-1 ml-auto py-4">
+                            <option *ngFor="let prop of billProperties" [value]="prop">{{prop}}</option>
+                        </select>
+                        <input [(ngModel)]="phrase" class="form-control mx-1 col-4 py-4" type="text"
+                            placeholder="Search">
+                        <button class="btn btn-success col-1 mr-auto" type="submit"><span
+                                class="material-icons">search</span></button>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="color-grey">
+                                    <th class="sortedHeads" *ngFor="let col of cols" id="{{ col.key }}" draggable="true"
+                                        (dragover)="$event.preventDefault()" (dragstart)="onHeaderDragStart($event)"
+                                        (drop)="onHeaderDrop($event)" (click)="onChangeSort(col.key)">
+                                        <i *ngIf="ascend" class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                                        <i *ngIf="!ascend" class="fa fa-sort-alpha-asc" aria-hidden="true"></i> &nbsp;{{
+                                        col.title }}
+                                    </th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let bill of billList$ | async | filter:filterKey:phrase | sort: sortKey: ascend |slice: (indexPage -1)*pagiLength: indexPage*pagiLength">
+                                        <td *ngFor="let col of cols">
+                                            {{ bill[col.key] }}
+                                        </td>
+
+                                        <td>
+                                            <div class="btn-group w-100">
+                                                <button [routerLink]="['/bills/' + bill.id]"
+                                                    class="btn btn-info ml-auto">
+                                                    <span class="material-icons">create</span></button>
+                                                <button (click)="onDelete(bill)" class="btn btn-danger"><span
+                                                        class="material-icons">delete</span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <hr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+
+                                        <td class="font-weight-bold">
+                                            Current amount:&nbsp;
+                                            {{ billList$ | async | filter:filterKey:phrase | slice: (indexPage
+                                            -1)*pagiLength:
+                                            indexPage*pagiLength | summary:'amount' | numberhu }} Ft<br>
+                                            Total amount:&nbsp;
+                                            {{ billList$ | async | summary:'amount' | numberhu }} Ft
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <app-pagination [length]="ArrayLength" (onLength)="onLength($event)" (onIndex)="onIndex($event)">
+                    </app-pagination>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

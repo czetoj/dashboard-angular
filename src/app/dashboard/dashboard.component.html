@@ -1,0 +1,257 @@
+<div class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">paid</i>
+                        </div>
+                        <p class="card-category">Bills revenue</p>
+                        <h3 class="card-title"> {{ revenue | numberhu }} Ft</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">label_important</i> Unpaid bills (pieces):
+                            {{accum_bill}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <p class="card-category">Customers</p>
+                        <h3 *ngIf="customerList$ | async; let list" class="card-title">
+                            {{list.length}}
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">how_to_reg</i> Active customers: {{accum_active_customers}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+
+                    <div class="card-header card-header-danger card-header-icon">
+                        <!-- <div class="card-icon">
+                            <i class="material-icons">add_business</i>
+                        </div> -->
+                        <div class="card-icon">
+                            <i class="material-icons">money</i>
+                        </div>
+                        <p class="card-category">Product Prices</p>
+                        <h3 class="card-title">{{ productPrices | numberhu }}
+                            <small>Ft</small>
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">add_business</i> Active products: {{accum_active_products}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">shopping_cart</i>
+                        </div>
+                        <p class="card-category">Number of orders</p>
+                        <h3 class="card-title">{{ orderNumber }}</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i> Number of unpaid orders:
+                            {{accum_active_unpaid_orders}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success d-flex justify-content-between">
+                        Bills (value/id)
+                        <div>
+                            <i (click)="onChartTypeBar()" class="material-icons iconhover">bar_chart</i>
+                            <i (click)="onChartTypePie()" class="material-icons iconhover">pie_chart</i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-category">
+                            <app-bill-bar-chart [chartType]="chartType" [bgc]="billBackgroundColorArray"
+                                [amounts]="billAmountArray" [ids]="billIdArray">
+                            </app-bill-bar-chart>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> updated {{timer}} <span *ngIf="timer != 1">
+                                &nbsp;minutes&nbsp;
+                            </span><span *ngIf="timer == 1">&nbsp;minute&nbsp;</span>ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header card-header-info d-flex justify-content-between">
+                        Customers /Countries
+                        <div>
+                            <i (click)="onCustomerChartTypeBar()" class="material-icons iconhover">bar_chart</i>
+                            <i (click)="onCustomerChartTypePie()" class="material-icons iconhover">pie_chart</i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-category">
+                            <app-customer-chart [countries]="countryData" [customers]="customerData"
+                                [bgc]="customerBGCA" [barChartType]="customerChartType">
+                            </app-customer-chart>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> updated {{timer}} <span *ngIf="timer != 1">
+                                &nbsp;minutes&nbsp;
+                            </span><span *ngIf="timer == 1">&nbsp;minute&nbsp;</span>ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header card-header-warning">
+                        Orders
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-category">
+                            <app-order-bar-chart [amounts]="orderAmountArray" [ids]="orderIdArray">
+                            </app-order-bar-chart>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i>
+                            updated {{timer}}
+                            <span *ngIf="timer != 1">&nbsp;minutes&nbsp;</span>
+                            <span *ngIf="timer == 1">&nbsp;minute&nbsp;</span>
+                            ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header card-header-danger">
+                        Products
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-category">
+                            <app-product-bar-chart [price]="productPriceArray" [ids]="productIdArray">
+                            </app-product-bar-chart>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> campaign sent 2 days ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-primary">
+                        <h4 class="card-title">Featured products</h4>
+                        <p class="card-category">Show's the five featured products</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-primary product">
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let product of productList$ | async | featured:true | slice: (indexPage -1)*pagiLength: indexPage*pagiLength">
+                                    <td>{{product.id}}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.description}}</td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <app-pagination [length]="ArrayLength" (onLength)="onLength($event)" (onIndex)="onIndex($event)">
+                        </app-pagination> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title">Our recently joined customers</h4>
+                        <p class="card-category">Show's the five latest customer of our company</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-primary">
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Country</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let customer of customerList$ | async | showLatestFive">
+                                    <td>{{customer.id}}</td>
+                                    <td>{{customer.firstName}}, {{customer.lastName}}</td>
+                                    <td>{{customer.email}}</td>
+                                    <td>{{customer.address.country}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success">
+                        <div class="ct-chart">Bill values from the European countries</div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <app-bill-geo-chart></app-bill-geo-chart>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> updated {{timer}} <span *ngIf="timer != 1">
+                                -minutes-
+                            </span><span *ngIf="timer == 1">-minute-</span>ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

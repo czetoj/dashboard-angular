@@ -1,0 +1,58 @@
+<div class="sidebar" data-color="purple" data-image="/assets/img/sidebar-4.jpg">
+    <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+
+    <div class="logo">
+        <a href="/" class="simple-text logo-normal">
+            <img class="logo" src="/assets/img/logo.png" alt="logo">
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/">
+                    <i class="material-icons">analytics</i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/customers">
+                    <i class="material-icons">manage_accounts</i>
+                    <p>Customers</p>
+                </a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/products">
+                    <i class="material-icons">store</i>
+                    <p>Products</p>
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/orders">
+                    <i class="material-icons">shopping_cart</i>
+                    <p>Orders</p>
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/bills">
+                    <i class="material-icons">paid</i>
+                    <p>Bills</p>
+                </a>
+            </li>
+            <li class="nav-item documentation-link">
+                <a class="nav-link"
+                    href="https://drive.google.com/file/d/1H98ls4fxDwrXl0erJJ41qjTIQGho7Ix3/view?usp=sharing"
+                    target="_blank">
+                    <i class="material-icons">assignment</i>
+                    <p>User documentation</p>
+                </a>
+            </li>
+            <!-- your sidebar here -->
+        </ul>
+    </div>
+</div>

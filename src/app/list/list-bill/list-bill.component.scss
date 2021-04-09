@@ -1,0 +1,22 @@
+.card .card-header-grey:not(.card-header-icon):not(.card-header-text) {
+    background: linear-gradient(60deg,#475a63,#263238);
+}
+
+.color-grey {
+    color: #475a63;
+}
+.sortedHeads:hover {
+    cursor: pointer;
+    background-color: rgb(240, 240, 240);
+}
+tr:hover {
+    background-color: rgb(220, 220, 220) !important;
+}
+
+
+// a filter designhoz kell
+.options-control {
+    padding:0 !important;
+    height: 48px !important;    
+}
+// a filter designhoz kell

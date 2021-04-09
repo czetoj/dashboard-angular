@@ -1,0 +1,22 @@
+<div class="row justify-content-center align-items-center m-5">
+    <span>View:</span>
+    <select class="form-control col-1 mr-1 ml-3" [(ngModel)]="pagiLength" (ngModelChange)="onLengthChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+    </select>
+    <span class="mr-5"> / {{ length }} </span>
+    <button class="btn btn-outline-secondary" (click)="onPagiNumber(1)"><span
+            class="material-icons">first_page</span></button>
+    <button class="btn btn-outline-secondary" (click)="onPagiBack()"><span
+            class="material-icons">chevron_left</span></button>
+    <button class="btn btn-outline-secondary" *ngFor="let page of [] | pagi:length: pagiLength"
+        (click)="onPagiNumber(page)" [class.active]="indexPage === page">{{ page
+        }}</button>
+    <button class="btn btn-outline-secondary" (click)="onPagiNext()"><span
+            class="material-icons">chevron_right</span></button>
+    <button class="btn btn-outline-secondary" (click)="onPagiLastNumber()"><span
+            class="material-icons">last_page</span></button>
+</div>

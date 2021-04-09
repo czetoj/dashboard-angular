@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card">
+
+      <div class="card-header card-header-grey">
+        <h4 class="card-title">Edit bill</h4>
+        <p class="card-category">Complete your modification of the bill!</p>
+      </div>
+
+      <div *ngIf="(bill$ | async) as bill" class="card-body">
+        <form #billForm="ngForm" (ngSubmit)="onUpdate(billForm, bill)">
+
+          <div class="form-group">
+            <label>OrderID</label>
+            <input name="orderid" type="number" class="form-control pl-3" [(ngModel)]="bill.orderID"
+              placeholder="e.g. 001" pattern="[0-9]{1,}" required>
+            <div [hidden]="billForm.controls.orderid?.valid || billForm.controls.orderid?.pristine"
+              class="error-message">
+              OrderID contains only numbers!
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Amount</label>
+            <input name="amount" type="number" class="form-control pl-3" [(ngModel)]="bill.amount" placeholder="e.g. 7"
+              pattern="[0-9]{1,}" required>
+            <div [hidden]="billForm.controls.amount?.valid || billForm.controls.amount?.pristine "
+              class="error-message">
+              Amount contains only numbers!
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Country</label>
+            <input name="country" type="text" class="form-control pl-3" [(ngModel)]="bill.country" placeholder="country"
+              pattern="[A-Za-zÁÉŐÚŰÖÜÓÍáéőúűöüóí- ]{2,}" required>
+            <div [hidden]="billForm.controls.country?.valid || billForm.controls.country?.pristine "
+              class="error-message">
+              Country must be text and minimum 2 characters!
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select name="status" [(ngModel)]="bill.status" class="form-control pl-3">
+              <option>new</option>
+              <option>paid</option>
+            </select>
+          </div>
+
+          <button [disabled]="billForm.invalid || updating" type="submit" class="btn btn-info btn-block btn-lg">
+            <span *ngIf="!updating" class="material-icons">save_alt</span>
+            <span *ngIf="updating" class="material-icons save">cached</span>
+          </button>
+          <div [hidden]="billForm.valid || billForm.pristine" class="error-message">
+            All form fields are required!
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

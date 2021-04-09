@@ -1,0 +1,183 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-success btn-block mb-5" [routerLink]="['0']"><span
+                        class="material-icons">library_add</span>Add a new product</button>
+
+                <!-- <h4 class="card-title ">Product List</h4>
+                <p class="card-category"> This is a list of products. You can add, modify and delete a product.</p>
+                </div>
+                <div class="card-body">
+                <div class="row m-3">
+                    <button class="btn btn-block mb-5" [routerLink]="['/products/'+0]">
+                      <span class="material-icons">
+                        library_add
+                      </span> Add a new product</button> -->
+
+
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title ">Product list</h4>
+                        <p class="card-category"> This is a list of products. You can add, modify and remove any
+                            products.
+                        </p>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="col-12 mx-auto row py-2 product-search">
+                        <select [(ngModel)]="filterKey" class="options-control form-control col-1 ml-auto py-4">
+                            <option *ngFor="let prop of productProperties" [value]="prop">{{prop}}</option>
+                        </select>
+                        <input [(ngModel)]="phrase" class="form-control mx-1 col-4 py-4" type="text"
+                            placeholder="Search">
+                        <button class="btn btn-success col-1 mr-auto" type="submit"><span
+                                class="material-icons">search</span></button>
+                    </div>
+                    <!-- Filter component -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th class="sortedHeads" *ngFor="let col of cols" id="{{ col.key }}"
+                                            draggable="true" (dragover)="$event.preventDefault()"
+                                            (dragstart)="onHeaderDragStart($event)" (drop)="onHeaderDrop($event)"
+                                            (click)="onChangeSort(col.key)">
+                                            {{ col.title }}</th>
+                                        <i *ngIf="ascend" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+                                        <i *ngIf="!ascend" class="fa fa-sort-amount-asc" aria-hidden="true"></i> &nbsp;
+
+
+                                        <th></th>
+
+                                    </tr>
+                                    <!-- <th> ID </th>
+                                    <th> KatID </th>
+                                    <th> Név </th>
+                                    <th> Típus </th>
+                                    <th> Leírás </th>
+                                    <th> Ár </th>
+                                    <th> Aktív </th>
+                                    <th> Kiemelt </th> -->
+
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let product of productList | async | filter:filterKey:phrase | sort: sortKey: ascend |slice: (indexPage -1)*pagiLength: indexPage*pagiLength">
+                                        <td *ngFor="let col of cols">{{ product[col.key] }}
+
+                                        </td>
+                                        <td></td>
+                                        <!-- <td>
+                                            {{ product.catID }}
+                                        </td>
+                                        <td>
+                                            {{ product.name }}
+                                        </td>
+                                        <td>
+                                            {{ product.type }}
+                                        </td>
+                                        <td>
+                                            {{ product.description }}
+                                        </td>
+                                        <td>
+                                            {{ product.price }}
+                                        </td>
+                                        <td>
+                                            {{ product.active }}
+                                        </td>
+                                        <td>
+                                            {{ product.featured }}
+                                        </td> -->
+                                        <td>
+                                            <div class="btn-group">
+                                                <button [routerLink]="[product.id]" class="btn btn-info">
+                                                    <span class="material-icons">create</span></button>
+                                                <button (click)="onDelete(product)" class="btn btn-danger">
+                                                    <span class="material-icons">delete</span>
+                                                </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="sortedHeads" *ngFor="let col of cols" id="{{ col.key }}"
+                                            draggable="true">{{ col.title }}
+                                        </th>
+                                        <th></th>
+                                        <th class="sumCell">
+                                            Current price:&nbsp;
+                                            {{ productList | async | filter:filterKey:phrase | slice: (indexPage
+                                            -1)*pagiLength:
+                                            indexPage*pagiLength | summary:'price' }} <br>
+                                            Total price:&nbsp;
+                                            {{ productList | async | summary:'price' }}
+                                        </th>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <app-pagination [length]="ArrayLength" (onLength)="onLength($event)" (onIndex)="onIndex($event)">
+                    </app-pagination>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-10 offset-1">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Active</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><input [(ngModel)]="newProduct.name" type="text" class="form-control"></td>
+                            <td><input [(ngModel)]="newProduct.description" type="text" class="form-control"></td>
+                            <td><input [(ngModel)]="newProduct.price" type="number" class="form-control"></td>
+                            <td><input [(ngModel)]="newProduct.active" type="text" class="form-control"></td>
+                            <td>
+                                <button (click)="onCreateFire(newProduct)" class="btn btn-success">add new
+                                    product</button>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of itemList | async">
+                            <td><input [(ngModel)]="item.id" type="text" class="form-control"></td>
+                            <td><input [(ngModel)]="item.name" type="text" class="form-control"></td>
+                            <td><input [(ngModel)]="item.description" type="text" class="form-control"></td>
+                            <td><input [(ngModel)]="item.price" type="number" class="form-control"></td>
+                            <td><input [(ngModel)]="item.active" type="text" class="form-control"></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button (click)="onUpdateFire(item)" class="btn btn-info">
+                                        <span class="material-icons">refresh</span></button>
+                                    <button (click)="onDeleteFire(item)" class="btn btn-danger">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

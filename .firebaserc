@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-admin-3fca1": {
+      "hosting": {
+        "big-project": [
+          "angular-admin-3fca1"
+        ]
+      }
+    }
+  }
+}
